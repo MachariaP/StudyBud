@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Room
 
 
@@ -16,10 +16,7 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
-    room = None
-    for i in room:
-        if i['id'] == int(pk):
-            room = i
+    room = get_object_or_404(Room, id=pk)
     context = {'room': room}        
 
     return render(request, 'base/room.html', context)
