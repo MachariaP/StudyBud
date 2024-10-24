@@ -2,11 +2,23 @@
 
 {% block content %}
 
-<h1>Home Template</h1>
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
 
-<div>
+<div class="home-container">
 
-    <a href="{% url 'create-room' %}">Create Room</a>
+    <div>
+        <h3>Browse Topic</h3>
+        <hr>
+    </div>
+
+    <div>
+
+        <a href="{% url 'create-room' %}">Create Room</a>
 
     <div>
         {% for room in rooms %}
@@ -20,6 +32,10 @@
             </div>
         {% endfor %}
     </div>
+
+    </div>
+
+    
 </div>
 
 {% endblock %}
