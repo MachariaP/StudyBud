@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Room
+from django.contrib import messages
+from django.db.models import Q
+from django.contrib.auth.models import User
+from .models import Room, Topic
 from .forms import RoomForm
 
 
@@ -11,9 +14,34 @@ from .forms import RoomForm
     #{'id': 3, 'name': 'Frontend Development'},
 #]
 
+def loginPage(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.Objects.get(username=username)
+
+        except:
+            messages.error(request, 'User does not exist')
+
+    context = {}
+    return render(request, 'base/login_register.html', context)
+
 def home(request):
-    room = Room.objects.all()
-    context = {'rooms': room}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q)
+    )
+
+    topics = Topic.objects.all()
+    room_count = rooms.count()
+
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
@@ -55,6 +83,3 @@ def deleteRoom(request, pk):
         room.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': room})
-
-def login(request):
-    return render(request, 'login.html')
