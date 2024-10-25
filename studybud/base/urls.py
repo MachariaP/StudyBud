@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
     path('login/', views.loginPage, name='login'),
-    path('logout/', views.logoutUser, name='logout'),  # Add URL for logging out a user.
+    path('logout/', views.logoutUser, name='logout'),
+    path('register/', views.registerPage, name='register'),  # Add URL for registering a new user.
 
     path('', views.home, name='home'),
     path('room/<str:pk>/', views.room, name='room'),
