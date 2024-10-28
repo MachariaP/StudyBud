@@ -92,10 +92,15 @@ def room(request, pk):
                , 'participants': participants}        
     return render(request, 'base/room.html', context)
 
+def userProfile(request, pk):
+    user = User.objects.get(pk=pk)
+    context = {'user': user}
+    return render(request, 'base/profile.html', context)
+
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
-
+    
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
