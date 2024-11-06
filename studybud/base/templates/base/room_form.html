@@ -22,14 +22,15 @@
             {% csrf_token %}
 
             <div class="form__group">
-              <label for="room_topic">Room Topic</label>
-              <input required type="text" name="topic" list="topic-list" />
+              <label for="room_topic">Enter a Topic</label>
+              <input required type="text" value="{{room.topic.name}}" name="topic" list="topic-list" />
               <datalist id="topic-list">
                 <select id="room_topic">
-                  <option value="Python">Python</option>
-                  <option value="Django">Django</option>
+                  {% for topic in topics %}
+                  <option value="{{topic.name}}">{{topic.name}}</option>
+                  {% endfor %}
                 </select>
-              {{form.topic}}
+              </datalist>
             </div>
 
             <div class="form__group">
@@ -62,7 +63,7 @@
             </div> -->
             <div class="form__action">
               <a class="btn btn--dark" href="index.html">Cancel</a>
-              <button class="btn btn--main" type="submit">Create Room</button>
+              <button class="btn btn--main" type="submit">Submit</button>
             </div>
           </form>
         </div>
