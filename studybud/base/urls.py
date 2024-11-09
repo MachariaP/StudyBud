@@ -16,4 +16,6 @@ urlpatterns = [
     path('delete-message/<str:pk>/', views.deleteMessage, name='delete-message'),  # Add URL for deleting a message.
 
     path('update-user/', views.updateUser, name='update-user'),  # Add URL for updating a user.
+
+    path('topics/', views.topicsPage, name='topics'), # Add URL for topics page.
 ]
