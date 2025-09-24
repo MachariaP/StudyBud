@@ -18,4 +18,5 @@ urlpatterns = [
     path('update-user/', views.updateUser, name='update-user'),  # Add URL for updating a user.
 
     path('topics/', views.topicsPage, name='topics'), # Add URL for topics page.
+    path('create-topic/', views.createTopic, name='create-topic'),  # Add URL for creating a new topic.
 ]

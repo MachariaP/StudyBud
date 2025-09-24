@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import Room, Topic, Message
-from .forms import RoomForm, UserForm
+from .forms import RoomForm, UserForm, TopicForm
 
 # Views
 
@@ -183,3 +183,17 @@ def topicsPage(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})
+
+
+@login_required(login_url='login')
+def createTopic(request):
+    form = TopicForm()
+    
+    if request.method == 'POST':
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save()
+            return redirect('topics')
+        
+    context = {'form': form}
+    return render(request, 'base/topic_form.html', context)
