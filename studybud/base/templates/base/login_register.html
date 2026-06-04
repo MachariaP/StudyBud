@@ -1,127 +1,216 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
+<main class="auth-page">
+  <div class="auth-layout">
+    <div class="auth-brand animate-fade-in-up stagger-1">
+      <div class="auth-brand__card {% if page == 'register' %}auth-brand__card--gradient{% endif %}">
+        {% if page == 'login' %}
+          <h1 class="auth-brand__title">Collaborate. <span class="text-primary">Learn. Grow.</span></h1>
+          <p class="auth-brand__subtitle">The premium digital workspace designed for focused research and group excellence. Master your courses together.</p>
 
-    <main class="auth layout">
+          <div class="auth-features">
+            <div class="auth-feature glass">
+              <div class="auth-feature__icon auth-feature__icon--primary">
+                <span class="material-symbols-outlined">groups</span>
+              </div>
+              <div>
+                <h3 class="auth-feature__title">Create Study Rooms</h3>
+                <p class="auth-feature__desc">Instant virtual spaces for group brainstorming and shared resource management.</p>
+              </div>
+            </div>
 
-      {% if page == 'login' %}
+            <div class="auth-feature glass">
+              <div class="auth-feature__icon auth-feature__icon--tertiary">
+                <span class="material-symbols-outlined">forum</span>
+              </div>
+              <div>
+                <h3 class="auth-feature__title">Real-time Discussion</h3>
+                <p class="auth-feature__desc">Fluid chat and thread-based interactions to solve complex academic problems together.</p>
+              </div>
+            </div>
 
-      <div class="container">
-        <div class="layout__box">
-          <div class="layout__boxHeader">
-            <div class="layout__boxTitle">
-              <h3>Login</h3>
+            <div class="auth-feature glass">
+              <div class="auth-feature__icon auth-feature__icon--primary">
+                <span class="material-symbols-outlined">monitoring</span>
+              </div>
+              <div>
+                <h3 class="auth-feature__title">Track Progress</h3>
+                <p class="auth-feature__desc">Visualize study streaks and milestone completion across all your integrated courses.</p>
+              </div>
             </div>
           </div>
-          <div class="layout__body">
-            <h2 class="auth__tagline">Find your study partner</h2>
+        {% else %}
+          <h1 class="auth-brand__title">Master your craft <span class="text-primary">together.</span></h1>
+          <p class="auth-brand__subtitle">Join thousands of developers and researchers in a distraction-free digital environment designed for deep focus and collaborative growth.</p>
 
-            <form class="form" action="" method="POST">
-              {% csrf_token %}
-              <div class="form__group form__group">
-                <label for="room_name">Username</label>
-                <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+          <div class="auth-features">
+            <div class="auth-feature">
+              <div class="auth-feature__icon auth-feature__icon--tertiary">
+                <span class="material-symbols-outlined">biotech</span>
               </div>
-              <div class="form__group">
-                <label for="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                />
+              <div>
+                <h3 class="auth-feature__title">Research Labs</h3>
+                <p class="auth-feature__desc">Access specialized virtual environments for coding and data science.</p>
               </div>
-
-              <button class="btn btn--main" type="submit">
-                <svg
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                >
-                  <title>lock</title>
-                  <path
-                    d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z"
-                  ></path>
-                  <path
-                    d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z"
-                  ></path>
-                </svg>
-
-                Login
-              </button>
-            </form>
-
-            <div class="auth__action">
-              <p>Haven't signed up yet?</p>
-              <a href="{% url 'register' %}" class="btn btn--link">Sign Up</a>
+            </div>
+            <div class="auth-feature">
+              <div class="auth-feature__icon auth-feature__icon--primary">
+                <span class="material-symbols-outlined">groups</span>
+              </div>
+              <div>
+                <h3 class="auth-feature__title">Peer Mentorship</h3>
+                <p class="auth-feature__desc">Connect with senior developers and academic peers worldwide.</p>
+              </div>
+            </div>
+            <div class="auth-feature">
+              <div class="auth-feature__icon auth-feature__icon--tertiary">
+                <span class="material-symbols-outlined">auto_graph</span>
+              </div>
+              <div>
+                <h3 class="auth-feature__title">Progress Tracking</h3>
+                <p class="auth-feature__desc">Visualize your learning journey with high-fidelity analytics.</p>
+              </div>
             </div>
           </div>
-        </div>
+
+          <div class="auth-social-proof">
+            <div class="auth-social-proof__avatars">
+              <span class="auth-social-proof__avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5)">S</span>
+              <span class="auth-social-proof__avatar" style="background: linear-gradient(135deg, #7ed2ea, #5ab0c7)">J</span>
+              <span class="auth-social-proof__avatar" style="background: linear-gradient(135deg, #c0c1ff, #8083ff)">M</span>
+            </div>
+            <p><span class="auth-social-proof__count">50k+</span> students already joined</p>
+          </div>
+        {% endif %}
       </div>
+    </div>
 
-      {% else %}
-
-      <div class="container">
-        <div class="layout__box">
-          <div class="layout__boxHeader">
-            <div class="layout__boxTitle">
-              <h3>Register</h3>
-            </div>
-          </div>
-          <div class="layout__body">
-            <h2 class="auth__tagline">Find your study partner</h2>
-
-            <form class="form" action="" method="POST">
-              {% csrf_token %}
-
-              {% for field in form %}
-              <div class="form__group form__group">
-                <label for="room_name">{{field.label}}</label>
-                {{ field }}
-                <!--<input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
-              </div>
-              <div class="form__group">
-                <label for="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                />-->
-              </div>
-              {% endfor %}
-
-              <button class="btn btn--main" type="submit">
-                <svg
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                >
-                  <title>lock</title>
-                  <path
-                    d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z"
-                  ></path>
-                  <path
-                    d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z"
-                  ></path>
-                </svg>
-
-                Register
-              </button>
-            </form>
-
-            <div class="auth__action">
-              <p>Already signed up yet?</p>
-              <a href="{% url 'login' %}" class="btn btn--link">Login</a>
-            </div>
-          </div>
+    <div class="auth-form-col animate-fade-in-up stagger-2">
+      <div class="{% if page == 'register' %}auth-form-card--gradient-border{% else %}auth-form-card{% endif %}">
+        {% if page == 'register' %}<div class="auth-form-card__inner">{% endif %}
+        <div class="auth-form-card__header">
+          {% if page == 'login' %}
+          <h2 class="auth-form-card__title">Welcome Back</h2>
+          <p class="auth-form-card__subtitle">Log in to access your digital workspace.</p>
+          {% else %}
+          <h2 class="auth-form-card__title">Create an Account</h2>
+          <p class="auth-form-card__subtitle">Begin your journey to academic excellence.</p>
+          {% endif %}
         </div>
+
+        {% if page == 'login' %}
+        <form class="auth-form" action="" method="POST">
+          {% csrf_token %}
+
+          <div class="form__group">
+            <label for="username">Username</label>
+            <div class="input-icon-wrap">
+              <span class="material-symbols-outlined input-icon">person</span>
+              <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+            </div>
+          </div>
+
+          <div class="form__group">
+            <div class="form__group-header">
+              <label for="password">Password</label>
+              <a href="{% url 'forgot-password' %}" class="form__forgot">Forgot password?</a>
+            </div>
+            <div class="input-icon-wrap">
+              <span class="material-symbols-outlined input-icon">lock</span>
+              <input id="password" name="password" type="password" placeholder="••••••••" />
+              <button type="button" class="input-toggle password-toggle" tabindex="-1" aria-label="Toggle password visibility">
+                <span class="material-symbols-outlined" id="login-pw-icon">visibility</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form__checkbox">
+            <input type="checkbox" id="remember" name="remember" checked />
+            <label for="remember">Remember me for 30 days</label>
+          </div>
+
+          <button class="btn btn--auth" type="submit">
+            Log In to Workspace
+          </button>
+
+          <div class="auth-divider">
+            <span>OR CONTINUE WITH</span>
+          </div>
+
+          <button type="button" class="btn btn--social">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26.81-.58z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Google Account
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Don't have an account? <a href="{% url 'register' %}">Sign up</a>
+        </p>
+
+        {% else %}
+
+        <form class="auth-form" action="" method="POST">
+          {% csrf_token %}
+
+          {% for field in form %}
+          <div class="form__group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="input-icon-wrap">
+              {% if 'username' in field.name %}
+              <span class="material-symbols-outlined input-icon">person</span>
+              {% elif 'password' in field.name|lower %}
+              <span class="material-symbols-outlined input-icon">{% if 'confirm' in field.name|lower or 'password2' in field.name %}verified_user{% else %}lock{% endif %}</span>
+              {% endif %}
+              {{ field }}
+              {% if 'password' in field.name|lower %}
+              <button type="button" class="input-toggle password-toggle" tabindex="-1" aria-label="Toggle password visibility">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+              {% endif %}
+            </div>
+            {% if 'password' in field.name|lower and '1' in field.name %}
+            <div class="password-strength" id="password-strength-bar">
+              <div class="password-strength__bar">
+                <div class="password-strength__fill" id="password-strength-fill"></div>
+              </div>
+              <span class="password-strength__text" id="password-strength-text">Enter a password</span>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+
+          <button class="btn btn--auth btn--auth-gradient" type="submit">
+            Create Account
+          </button>
+
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+
+          <button type="button" class="btn btn--social">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"/>
+            </svg>
+            Sign up with Google
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Already have an account? <a href="{% url 'login' %}">Sign in</a>
+        </p>
+        {% endif %}
+        {% if page == 'register' %}</div>{% endif %}
       </div>
-      {% endif %}
-    </main>
+    </div>
+  </div>
+</main>
 {% endblock content %}
