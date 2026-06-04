@@ -1,53 +1,49 @@
-<div class="activities">
-    <!-- Header section for the activities section -->
-    <div class="activities__header">
-      <h2>Recent Activities</h2>
-    </div>
+<div class="panel activity-panel">
+  <div class="panel__header">
+    <h2>Recent Activity</h2>
+  </div>
+  <div class="panel__body">
 
-    <!-- Loop through each message in the room_messages collection -->
     {% for message in room_messages %}
-
-    <div class="activities__box">
-      <!-- Header section for each activity -->
-      <div class="activities__boxHeader roomListRoom__header">
-        <!-- Link to the user's profile with avatar and name -->
-        <a href="{% url 'user-profile' message.user.id %}" class="roomListRoom__author">
-          <div class="avatar avatar--small">
-            <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+    <div class="activity__item">
+      <div class="activity__top">
+        <a href="{% url 'user-profile' message.user.id %}" class="activity__author">
+          <div class="activity__author-avatar">
+            {% if message.user.profile.avatar %}
+            <img src="{{ message.user.profile.avatar.url }}" alt="{{message.user.username}}" />
+            {% else %}
+            <div class="avatar__initials" style="width:100%;height:100%;font-size:1rem;">{{ message.user.username|first|upper }}</div>
+            {% endif %}
           </div>
-          <p>
-            <!-- Display the user's handle and time since the message was created -->
+          <div>
             @{{message.user}}
-            <span>{{message.created | timesince}} ago</span>
-          </p>
+            <small>{{message.created | timesince}} ago</small>
+          </div>
         </a>
-
-        <!-- Display delete icon only if the logged-in user matches the message user -->
         {% if request.user == message.user %}
-
-        <div class="roomListRoom__actions">
-          <a href="{% url 'delete-message' message.id %}">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-              <title>remove</title>
-              <path
-                d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
-              ></path>
-            </svg>
-          </a>
-        </div>
+        <a href="{% url 'delete-message' message.id %}" class="activity__delete">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </a>
         {% endif %}
       </div>
-      
-      <!-- Content section for each activity -->
-      <div class="activities__boxContent">
-        <!-- Reference to the post being replied to -->
-        <p>replied to post “<a href="{% url 'room' message.room.id %}">{{message.room}}</a>”</p>
-        <!-- Display the body of the message -->
-        <div class="activities__boxRoomContent">
-            {{ message.body }}
-        </div>
+      <div class="activity__room-link">
+        replied in <a href="{% url 'room' message.room.id %}">{{message.room.name}}</a>
+      </div>
+      <div class="activity__body">
+        {{message.body}}
       </div>
     </div>
+    {% empty %}
+    <div class="activity__empty">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
+      </svg>
+      <h3>No recent activity</h3>
+      <p>Be the first to start a conversation!</p>
+    </div>
     {% endfor %}
+
+  </div>
 </div>
-<!-- End of the activities section -->

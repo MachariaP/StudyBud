@@ -2,61 +2,64 @@
 
 {% block content %}
 
-<main class="layout layout--3">
-  <div class="container">
+<div class="container grid-3">
 
-    <!-- Topics Start -->
+  <div class="sidebar-desktop">
     {% include 'base/topics_component.html' %}
-
-    <!-- Topics End -->
-
-    <!-- Room List Start -->
-    <div class="roomList">
-      <div class="mobile-menu">
-        <form action="{% url 'home' %}" method="GET" class="header__search">
-          <label>
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-              <title>search</title>
-              <path
-                d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
-              </path>
-            </svg>
-            <input name="q" placeholder="Search for posts" />
-          </label>
-        </form>
-        <div class="mobile-menuItems">
-          <a class="btn btn--main btn--pill" href="{% url 'topics' %}">Browse Topics</a>
-          <a class="btn btn--main btn--pill" href="#">Recent Activities</a>
-        </div>
-      </div>
-
-      <div class="roomList__header">
-        <div>
-          <h2>Study Rooms</h2>
-          <p>{{room_count}} Rooms available</p>
-        </div>
-
-        <a class="btn btn--main" href="{% url 'create-room' %}">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-            <title>add</title>
-            <path
-              d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z">
-            </path>
-          </svg>
-          Create Room
-        </a>
-      </div>
-
-      {% include 'base/feed_component.html' %}
-
-    </div>
-    <!-- Room List End -->
-
-    <!-- Activities Start -->
-    {% include 'base/activity_component.html' %}
-
-    <!-- Activities End -->
   </div>
-</main>
+
+  <div>
+    {% if not request.user.is_authenticated %}
+    <div class="hero">
+      <h1 class="hero__title">
+        Find your <span>study partner</span>
+      </h1>
+      <p class="hero__subtitle">
+        Join topic-based discussion rooms, collaborate with learners worldwide,
+        and level up your knowledge together.
+      </p>
+      <div class="hero__cta">
+        <a href="{% url 'register' %}" class="btn btn--primary">Get Started Free</a>
+        <a href="{% url 'login' %}" class="btn btn--secondary btn--pill">Sign In</a>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="feed__header">
+      <div class="feed__header-left">
+        <h1 class="feed__title">Study Rooms</h1>
+        <span class="feed__count">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+          </svg>
+          {{room_count}} Available
+        </span>
+      </div>
+      <a href="{% url 'create-room' %}" class="btn btn--primary">
+        <span class="material-symbols-outlined" style="font-size:1.8rem;">add</span>
+        Create Room
+      </a>
+    </div>
+
+    {% if rooms.count == 0 %}
+    <div class="empty">
+      <svg class="empty__icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/>
+      </svg>
+      <h3 class="empty__title">No rooms found</h3>
+      <p class="empty__message">Try a different search topic or create the first study room!</p>
+      <a href="{% url 'create-room' %}" class="btn btn--primary">Create Room</a>
+    </div>
+    {% else %}
+    {% include 'base/feed_component.html' %}
+    {% endif %}
+
+  </div>
+
+  <div class="activity-desktop">
+    {% include 'base/activity_component.html' %}
+  </div>
+
+</div>
 
 {% endblock %}

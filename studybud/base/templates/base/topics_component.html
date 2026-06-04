@@ -1,23 +1,35 @@
- <div class="topics">
-    <div class="topics__header">
-      <h2>Browse Topics</h2>
-    </div>
-    <ul class="topics__list">
-      <li>
-        <a href="{% url 'home' %}" class="active">All <span>{{topics.count}}</span></a>
-      </li>
+<div class="panel topics-panel">
+  <div class="panel__header">
+    <h2>Browse Topics</h2>
+  </div>
+  <div class="panel__body">
+    <div class="topics">
+      <a href="{% url 'home' %}" class="topics__link {% if not request.GET.q %}topics__link--active{% endif %}">
+        <span class="topics__link-text">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+          </svg>
+          All
+        </span>
+        <span>{{topics.count}}</span>
+      </a>
       {% for topic in topics %}
-      <li>
-        <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}<span>{{topic.room_set.all.count}}</span></a>
-      </li>
+      <a href="{% url 'home' %}?q={{topic.name}}" class="topics__link {% if request.GET.q == topic.name %}topics__link--active{% endif %}">
+        <span class="topics__link-text">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          {{topic.name}}
+        </span>
+        <span>{{topic.room_set.all.count}}</span>
+      </a>
       {% endfor %}
-      
-    </ul>
-    <a class="btn btn--link" href="{% url 'topics' %}">
+    </div>
+    <a class="btn btn--link btn--sm topics__more" href="{% url 'topics' %}">
       More
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-        <title>chevron-down</title>
-        <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
       </svg>
     </a>
   </div>
+</div>
