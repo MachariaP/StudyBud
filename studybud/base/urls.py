@@ -17,5 +17,7 @@ urlpatterns = [
 
     path('update-user/', views.updateUser, name='update-user'),  # Add URL for updating a user.
 
-    path('topics/', views.topicsPage, name='topics'), # Add URL for topics page.
+    path('topics/', views.topicsPage, name='topics'),
+    path('forgot-password/', views.forgotPassword, name='forgot-password'),
+    path('reset/<uidb64>/<token>/', views.resetPassword, name='reset-password'),
 ]
