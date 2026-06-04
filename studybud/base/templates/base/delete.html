@@ -1,40 +1,29 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
+<div class="container grid-center">
+  <div class="card delete" style="width: 100%;">
+    <div class="card__body" style="padding: 4rem 2rem;">
+      <form class="form" method="POST" action="">
+        {% csrf_token %}
+        <svg class="delete__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <h2 class="delete__title">Are you sure?</h2>
+        <p class="delete__message">This action cannot be undone.</p>
+        {% if obj.room %}
+        <span class="delete__badge">Message</span>
+        {% else %}
+        <span class="delete__badge">Room</span>
+        {% endif %}
+        <p class="delete__name">"{{obj}}"</p>
 
-    <main class="delete-item layout">
-        <div class="container">
-            <div class="layout__box">
-                <div class="layout__boxHeader">
-                    <div class="layout__boxTitle">
-                        <a href="{{request.META.HTTP_REFERER}}">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                viewBox="0 0 32 32">
-                                <title>arrow-left</title>
-                                <path
-                                    d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
-                                </path>
-                            </svg>
-                        </a>
-                        <h3>Back</h3>
-                    </div>
-                </div>
-                <div class="layout__body">
-                    <form class="form" method="POST" action="">
-                        {% csrf_token %}
-                        <div class="form__group">
-                            <p>Are you sure you want to delete "{{obj}}"?</p>
-                        </div>
-
-                        <div class="for__group">
-                            <input class="btn btn--main" type="submit" value="Confirm" />
-                        </div>
-
-                    </form>
-                </div>
-            </div>
+        <div class="form__actions" style="justify-content: center;">
+          <a class="btn btn--secondary" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+          <button class="btn btn--danger" type="submit">Delete</button>
         </div>
-    </main>
-
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}
