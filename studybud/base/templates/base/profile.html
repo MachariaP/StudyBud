@@ -1,52 +1,87 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-  <main class="profile-page layout layout--3">
-    <div class="container">
-      <!-- Topics Start -->
-     {% include 'base/topics_component.html' %}
-      <!-- Topics End -->
-
-      <!-- Room List Start -->
-      <div class="roomList">
-        <div class="profile">
-          <div class="profile__avatar">
-            <div class="avatar avatar--large active">
-              <img src="https://randomuser.me/api/portraits/men/11.jpg" />
-            </div>
-          </div>
-          <div class="profile__info">
-            <h3>{{user.username}}</h3>
-            <p>@{{user.username}}</p>
-            {% if request.user == user %}
-            <a href="{% url 'update-user' %}" class="btn btn--main btn--pill">Edit Profile</a>
-            {% endif %}
-          </div>
-          <div class="profile__about">
-            <h3>About</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur illo tenetur
-              facilis sunt nemo debitis quisquam hic atque aut? Ducimus alias placeat optio
-              accusamus repudiandae quis ab ex exercitationem rem?
-            </p>
-          </div>
-        </div>
-
-        <div class="roomList__header">
-          <div>
-            <h2>Study Rooms Hosted by {{user.username}}</a>
-            </h2>
-          </div>
-        </div>
-        {% include 'base/feed_component.html' %}
-      
+<main class="profile-page">
+  <div class="profile-header glass">
+    <div class="avatar-ring avatar-ring--gradient">
+      <div class="avatar avatar--lg">
+        {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="{{user.username}}" />
+        {% else %}
+        <span class="avatar__initials">{{ user.username|first|upper }}</span>
+        {% endif %}
       </div>
-      <!-- Room List End -->
-
-      <!-- Activities Start -->
-      {% include 'base/activity_component.html' %}
-      <!-- Activities End -->
     </div>
-  </main>
+    <h1 class="profile-header__name">{{user.username}}</h1>
+    <span class="profile-header__role">{% if profile.bio %}Learner{% else %}StudyBud Member{% endif %}</span>
+    <p class="profile-header__bio">
+      {% if profile.bio %}
+      {{profile.bio}}
+      {% else %}
+      Building knowledge, one topic at a time.
+      {% endif %}
+    </p>
+    {% if request.user == user %}
+    <a href="{% url 'update-user' %}" class="btn btn--profile-edit">Edit Profile</a>
+    {% endif %}
+  </div>
 
-  {% endblock content %}
+  <div class="profile-stats">
+    <div class="profile-stat glass">
+      <span class="profile-stat__value">{{rooms.count}}</span>
+      <span class="profile-stat__label">Rooms</span>
+    </div>
+    <div class="profile-stat glass">
+      <span class="profile-stat__value profile-stat__value--secondary">{{room_messages.count}}</span>
+      <span class="profile-stat__label">Messages</span>
+    </div>
+    <div class="profile-stat glass">
+      <span class="profile-stat__value profile-stat__value--tertiary">{{user.date_joined|date:"Y"}}</span>
+      <span class="profile-stat__label">Member Since</span>
+    </div>
+  </div>
+
+  {% if topics %}
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3>Currently Learning</h3>
+    </div>
+    <div class="profile-learning-scroll">
+      {% for topic in topics %}
+      <div class="profile-learning-card glass">
+        <div class="profile-learning-card__icon">
+          <span class="material-symbols-outlined">
+            {% if forloop.counter|divisibleby:3 %}code{% elif forloop.counter|divisibleby:2 %}database{% else %}school{% endif %}
+          </span>
+        </div>
+        <h4 class="profile-learning-card__title">{{topic.name}}</h4>
+        <div class="profile-learning-card__progress">
+          <div class="progress-bar">
+            <div class="progress-bar__fill" style="width: {{topic.room_set.count|add:50}}%"></div>
+          </div>
+          <span class="profile-learning-card__pct">{{topic.room_set.count}} room{{topic.room_set.count|pluralize}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3>Recent Activity</h3>
+    </div>
+    {% include 'base/activity_component.html' %}
+  </div>
+
+  {% if request.user == user %}
+  <div class="profile-section">
+    <div class="profile-section__header">
+      <h3>Your Rooms</h3>
+    </div>
+    {% include 'base/feed_component.html' %}
+  </div>
+  {% endif %}
+</main>
+{% endblock content %}

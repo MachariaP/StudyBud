@@ -1,41 +1,101 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-    <main class="update-account layout">
-        <div class="container">
-            <div class="layout__box">
-                <div class="layout__boxHeader">
-                    <div class="layout__boxTitle">
-                        <a href="{% url 'home' %}">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                viewBox="0 0 32 32">
-                                <title>arrow-left</title>
-                                <path
-                                    d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
-                                </path>
-                            </svg>
-                        </a>
-                        <h3>Edit your profile</h3>
-                    </div>
-                </div>
-                <div class="layout__body">
-                    <form class="form" action="" method="POST">
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form__group">
-                            <label for="profile_pic">{{field.label}}</label>
-                            {{field}}
-                        </div>
-                        {% endfor %}
+<main class="settings-page">
+  <div class="glass settings-summary">
+    <div class="avatar-ring avatar-ring--gradient">
+      <div class="avatar" id="avatarPreview">
+        {% if profile_form.instance.avatar %}
+        <img src="{{ profile_form.instance.avatar.url }}" alt="{{request.user.username}}" />
+        {% else %}
+        <span class="avatar__initials">{{ request.user.username|first|upper }}</span>
+        {% endif %}
+      </div>
+    </div>
+    <div>
+      <h2 class="settings-summary__name">{{request.user.username}}</h2>
+      <p class="settings-summary__level">{% if profile.bio %}Learner{% else %}StudyBud Member{% endif %}</p>
+    </div>
+  </div>
 
-                        <div class="form__action">
-                            <a class="btn btn--dark" href="index.html">Cancel</a>
-                            <button class="btn btn--main" type="submit">Update</button>
-                        </div>
-                    </form>
-                </div>
+  <form action="" method="POST" enctype="multipart/form-data" class="settings-form">
+    {% csrf_token %}
+
+    <section class="settings-section">
+      <h3 class="settings-section__title">Account</h3>
+      <div class="settings-card">
+        <div class="settings-card__item">
+          <div class="settings-card__item-left">
+            <span class="material-symbols-outlined settings-card__icon">photo_camera</span>
+            <div>
+              <p class="settings-card__label">Photo</p>
+              <p class="settings-card__desc">JPG, GIF or PNG. Max 2MB.</p>
             </div>
+          </div>
+          <label for="id_avatar" class="settings-card__action">Change</label>
+          <div class="form__hide">{{ profile_form.avatar }}</div>
+        </div>
+
+        <div class="settings-card__item">
+          <div class="settings-card__item-left">
+            <span class="material-symbols-outlined settings-card__icon">person</span>
+            <div>
+              <p class="settings-card__label">Username</p>
+              <p class="settings-card__desc">{{ user_form.username.value }}</p>
+            </div>
+          </div>
+          <div class="settings-card__edit-wrap">
+            {{ user_form.username }}
+          </div>
+        </div>
+
+        <div class="settings-card__item">
+          <div class="settings-card__item-left">
+            <span class="material-symbols-outlined settings-card__icon">mail</span>
+            <div>
+              <p class="settings-card__label">Email</p>
+              <p class="settings-card__desc">{{ user_form.email.value|default:"Not set" }}</p>
+            </div>
+          </div>
+          <div class="settings-card__edit-wrap">
+            {{ user_form.email }}
+          </div>
         </div>
       </div>
-    </main>
-    {% endblock content %}
+    </section>
+
+    <section class="settings-section">
+      <h3 class="settings-section__title">About</h3>
+      <div class="settings-card">
+        <div class="settings-card__item settings-card__item--col">
+          <div class="settings-card__item-left">
+            <span class="material-symbols-outlined settings-card__icon">bio</span>
+            <div>
+              <p class="settings-card__label">Bio</p>
+              <p class="settings-card__desc">Tell the community a little about yourself</p>
+            </div>
+          </div>
+          {{ profile_form.bio }}
+        </div>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <div class="settings-actions">
+        <a href="{% url 'home' %}" class="btn btn--settings-cancel">Cancel</a>
+        <button type="submit" class="btn btn--settings-save" id="saveBtn">
+          Save Changes
+        </button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <a href="{% url 'logout' %}" class="settings-logout">
+        <span class="material-symbols-outlined">logout</span>
+        Sign Out
+      </a>
+    </section>
+  </form>
+</main>
+{% endblock content %}
